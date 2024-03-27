@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fetch API Example</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+</style>
+</head>
+<body>
+
+<h2>Random Quotes Anime</h2>
+<center><h6>Project By IkhsanDev</h6></center>
+<center><button style="padding: 10px 20px"onclick="location.reload()">Refresh Quotes</button></center>
+<table id="data-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Quotes</th>
+      <th>Character</th>
+      <th>Anime</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+<center><h6>API BY : 
+<a href="https://katanime.vercel.app/api/getrandom">API QUOTES</a>
+</h6></center>
+<script>
+  // Fungsi untuk melakukan fetch API
+  function fetchData() {
+    fetch('https://katanime.vercel.app/api/getrandom') // Ganti URL dengan URL API yang sesuai
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        displayData(data.result); // Memanggil fungsi displayData untuk menampilkan data
+        console.table(data.result)
+      })
+      .catch(error => {
+        console.error('There has been a problem with your fetch operation:', error);
+      });
+  }
+
+  // Fungsi untuk menampilkan data ke dalam tabel HTML
+  function displayData(data) {
+    const tableBody = document.querySelector('#data-table tbody');
+    tableBody.innerHTML = ''; // Mengosongkan isi tabel sebelum menambahkan data baru
+
+    data.forEach(item => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${item.id}</td>
+        <td>${item.indo}</td>
+        <td>${item.character}</td>
+        <td>${item.anime}</td>
+      `;
+      tableBody.appendChild(row);
+    });
+  }
+
+  // Memanggil fungsi fetchData saat halaman dimuat
+  document.addEventListener('DOMContentLoaded', () => {
+    fetchData();
+  });
+  
+//Fungsi Jam
+function displayTime() {
+  var date = new Date();
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var seconds = date.getSeconds();
+  hours = (hours < 10) ? "0" + hours : hours;
+  minutes = (minutes < 10) ? "0" + minutes : minutes;
+  seconds = (seconds < 10) ? "0" + seconds : seconds;
+  var time = hours + ":" + minutes + ":" + seconds;
+  document.getElementById("clock").innerText = time;
+}
+setInterval(displayTime, 1000);
+
+//Fungsi date
+function displayDate() {
+  var date = new Date();
+  var day = date.getDate();
+  var month = date.getMonth() + 1; // Month is zero-based, so we add 1
+  var year = date.getFullYear();
+  var dateString = day + "/" + month + "/" + year;
+  document.getElementById("date").innerText = dateString;
+}
+
+displayDate(); // display date immediately
+</script>
+
+</body>
+</html>
